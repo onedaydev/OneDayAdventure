@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% if not user.is_authenticated %}
+<a href="{% url 'users:login' %}">Login</a>
+<br>
+<a href="{% url 'users:signup' %}">회원가입</a>
+{% else %}
+<a href="{% url 'users:logout' %}">Logout</a>
+{% endif %}
+<br>
+
+{% endblock %}

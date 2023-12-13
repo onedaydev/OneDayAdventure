@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from config.views import index
+from config.views import index, comingsoon
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -13,6 +13,9 @@ urlpatterns = [
     path('', index),
     path('users/', include('users.urls')),
     path('posts/', include('posts.urls')),
+
+    # delete oneday
+    path('comingsoon/', comingsoon),
 
     # path('cms/', include(wagtailadmin_urls)),
     # path('documents/', include(wagtaildocs_urls)),

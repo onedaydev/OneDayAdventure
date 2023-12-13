@@ -13,8 +13,8 @@ class PostAdmin(admin.ModelAdmin):
         CommentInline,
     ]
     list_display = [
-        "id",
         "title",
+        "id",
         "user",
         "date",
     ]

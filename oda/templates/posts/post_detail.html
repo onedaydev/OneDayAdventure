@@ -1,6 +1,65 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>{{ post.title }}</h2>
-<p> {{ post.content }}</p>
+
+<style>
+    .table {
+        width: 300px;
+        /* 전체 테이블의 너비 */
+    }
+
+    .table th,
+    .table td {
+        text-align: center;
+        white-space: nowrap;
+        /* 텍스트가 줄 바꿈되지 않도록 설정 */
+    }
+
+    .table th:first-child,
+    .table td:first-child {
+        width: 20%;
+        /* 제목 칸의 너비 */
+    }
+
+    .table th:not(:first-child),
+    .table td:not(:first-child) {
+        width: 80%;
+        /* 나머지 항목의 너비 */
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    .button-container {
+        margin-top: 20px; /* 버튼과 내용 사이의 간격 조절 */
+    }
+</style>
+
+<!-- 실제 HTML 내용 -->
+<div class="container">
+    <table class="table">
+        <tbody>
+            <tr>
+                <th scope="row">제목</th>
+                <td>{{ post.title }}</td>
+            </tr>
+            <tr>
+                <th scope="row">내용</th>
+                <td>{{ post.content }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="button-container">
+        {% if user == post.user %}
+        <a class="btn btn-danger" href="{% url 'posts:post_delete' pk=post.id %}">삭제</a>
+        {% endif %}
+        <a href="{% url 'posts:post_list' %}" class="btn btn-primary">목록으로</a>
+    </div>
+</div>
 {% endblock %}

@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.paginator import Paginator
+from django.http import HttpResponseForbidden
+
 from posts.models import Post
 from posts.forms import PostForm
+
 
 
 def post_list(request):
@@ -17,7 +21,7 @@ def post_list(request):
     if search:
         pass
     else:
-        posts = Post.objects.all()
+        posts = Post.objects.all().order_by('-id')
 
     paginator = Paginator(posts, 10)
 
@@ -29,10 +33,10 @@ def post_list(request):
     return render(request, "posts/post_list.html", context)
 
 
-class create_post(CreateView):
+class PostCreateView(CreateView):
     model = Post
     form_class = PostForm
-    template_name = "posts/create_post.html"
+    template_name = "posts/post_create.html"
     success_url = reverse_lazy("posts:post_list")
 
     def form_valid(self, form):
@@ -40,14 +44,24 @@ class create_post(CreateView):
         return super().form_valid(form)
     
 
-class post_detail(DetailView):
+class PostDetailView(DetailView):
     model = Post
     template_name = "posts/post_detail.html"
-    contenxt_object_name = "post"
+    context_object_name = "post"
 
-def post_modify(request):
+
+class PostUpdateView(UpdateView):
     pass
 
 
-def post_delete(request):
-    pass
+class PostDeleteView(UserPassesTestMixin, DeleteView):
+    model = Post
+    template_name = 'posts/post_delete.html'
+    success_url = reverse_lazy('posts:post_list') 
+
+    def test_func(self):
+        return self.request.user == self.get_object().user
+    
+    def handle_no_permission(self):
+        error_message = "삭제 권한이 없습니다"
+        return HttpResponseForbidden(error_message)

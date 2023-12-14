@@ -1,12 +1,77 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>signup</h1>
-<div>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">가입</button>
-    </form>
+<style>
+    body {
+        background-color: #f8f9fa;
+        /* 배경색 설정 */
+    }
+
+    .signup-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    .signup-form {
+        max-width: 400px;
+        /* 회원가입 폼의 최대 너비 */
+        width: 100%;
+        margin: 20px;
+        /* 폼 주변 여백 설정 */
+    }
+
+    .signup-btn {
+        display: flex;
+        justify-content: center;
+    }
+
+    .login-link {
+        margin-top: 10px;
+    }
+
+    .signup-table {
+        width: 100%;
+    }
+
+    .signup-table th,
+    .signup-table td {
+        padding: 10px;
+    }
+</style>
+
+<!-- 실제 HTML 내용 -->
+<div class="signup-container">
+    <div class="signup-form">
+        <h2 class="text-center mb-4">회원가입</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table class="signup-table">
+                <tr>
+                    <th>{{ form.username.label_tag }}</th>
+                    <td>{{ form.username }}</td>
+                </tr>
+                <tr>
+                    <th>{{ form.password.label_tag }}</th>
+                    <td>{{ form.password }}</td>
+                </tr>
+                <tr>
+                    <th>{{ form.password_check.label_tag }}</th>
+                    <td>{{ form.password_check }}</td>
+                </tr>
+                <tr>
+                    <th>{{ form.profile_image.label_tag }}</th>
+                    <td>{{ form.profile_image }}</td>
+                </tr>
+            </table>
+            <div class="signup-btn">
+                <button type="submit" class="btn btn-primary btn-block mt-3">회원가입</button>
+            </div>
+        </form>
+        <div class="login-link text-center">
+            <small>이미 계정이 있으신가요? <a href="{% url 'users:login' %}">로그인</a></small>
+        </div>
+    </div>
 </div>
 {% endblock %}

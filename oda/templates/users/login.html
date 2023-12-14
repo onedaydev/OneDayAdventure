@@ -1,13 +1,70 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Login</h1>
-<div>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-login">Login</button>
-    </form>
-    <a href="/users/signup/">to signup page</a>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        /* 배경색 설정 */
+    }
+
+    .login-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    .login-form {
+        max-width: 400px;
+        /* 로그인 폼의 최대 너비 */
+        width: 100%;
+        margin: 20px;
+        /* 폼 주변 여백 설정 */
+    }
+
+    .login-btn {
+        display: flex;
+        justify-content: center;
+    }
+
+    .signup-btn {
+        margin-top: 10px;
+    }
+
+    .login-table {
+        width: 100%;
+    }
+
+    .login-table th,
+    .login-table td {
+        padding: 10px;
+    }
+</style>
+
+<!-- 실제 HTML 내용 -->
+<div class="login-container">
+    <div class="login-form">
+        <h2 class="text-center mb-4">로그인</h2>
+        <form method="post" action="{% url 'users:login' %}">
+            {% csrf_token %}
+            <table class="login-table">
+                <tr>
+                    <th>{{ form.username.label_tag }}</th>
+                    <td>{{ form.username }}</td>
+                </tr>
+                <tr>
+                    <th>{{ form.password.label_tag }}</th>
+                    <td>{{ form.password }}</td>
+                </tr>
+            </table>
+            <div class="login-btn">
+                <button type="submit" class="btn btn-primary btn-block mt-3">로그인</button>
+            </div>
+        </form>
+        <div class="signup-btn text-center">
+            <small>계정이 없으신가요? <a href="{% url 'users:signup' %}">회원가입</a></small>
+        </div>
+    </div>
 </div>
 {% endblock %}

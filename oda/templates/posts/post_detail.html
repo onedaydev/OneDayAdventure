@@ -58,8 +58,32 @@
     <div class="button-container">
         {% if user == post.user %}
         <a class="btn btn-danger" href="{% url 'posts:post_delete' pk=post.id %}">삭제</a>
+        <a class="btn btn-primary" href="{% url 'posts:post_update' pk=post.id %}">수정</a>
+        
         {% endif %}
         <a href="{% url 'posts:post_list' %}" class="btn btn-primary">목록으로</a>
+    </div>
+
+    <div class="post-comments">
+        <ul>
+            {% for comment in post.comment_set.all %}
+            <li>
+                <span>{{comment.user.username}}</span>
+                <span>{{comment.content}}</span>
+                
+
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div>
+        <form method="POST" action="{% url 'posts:comment_add' %}">
+            {% csrf_token %}
+            <input type="hidden" name="post" value="{{post.id}}">
+            {{ comment_form.content }}
+            <button type="submit">submit</button>
+        </form>
     </div>
 </div>
 {% endblock %}

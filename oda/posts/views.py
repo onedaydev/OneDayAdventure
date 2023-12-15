@@ -1,34 +1,40 @@
+from typing import Any
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.paginator import Paginator
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponseRedirect
+from django.db.models.query_utils import Q
+from django.views.decorators.http import require_POST
 
-from posts.models import Post
-from posts.forms import PostForm
-
+from posts.models import Post, Comment
+from posts.forms import PostForm, CommentForm
 
 
 def post_list(request):
     page_number = request.GET.get("page")
-
     search = request.GET.get("search")
 
     if not page_number:
         page_number = 1
 
     if search:
-        pass
+        posts = Post.objects.filter(
+            Q(title__icontains=search) | Q(content__icontains=search)
+        ).order_by("-id")
     else:
-        posts = Post.objects.all().order_by('-id')
+        posts = Post.objects.all().order_by("-id")
 
     paginator = Paginator(posts, 10)
-
     page_obj = paginator.get_page(page_number)
+
+    if not search:
+        search = ""
 
     context = {
         "page_obj": page_obj,
+        "search": search,
     }
     return render(request, "posts/post_list.html", context)
 
@@ -42,26 +48,58 @@ class PostCreateView(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
-    
+
 
 class PostDetailView(DetailView):
     model = Post
     template_name = "posts/post_detail.html"
     context_object_name = "post"
 
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["comment_form"] = CommentForm()
+        return context
 
-class PostUpdateView(UpdateView):
-    pass
+
+class PostUpdateView(UserPassesTestMixin, UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name = "posts/post_update.html"
+
+    def get_success_url(self):
+        return reverse_lazy("posts:post_detail", kwargs={"pk": self.object.pk})
+
+    def test_func(self):
+        return self.request.user == self.get_object().user
+
+    def handle_no_permission(self):
+        error_message = "수정 권한이 없습니다"
+        return HttpResponseForbidden(error_message)
 
 
 class PostDeleteView(UserPassesTestMixin, DeleteView):
     model = Post
-    template_name = 'posts/post_delete.html'
-    success_url = reverse_lazy('posts:post_list') 
+    template_name = "posts/post_delete.html"
+    success_url = reverse_lazy("posts:post_list")
 
     def test_func(self):
         return self.request.user == self.get_object().user
-    
+
     def handle_no_permission(self):
         error_message = "삭제 권한이 없습니다"
+        return HttpResponseForbidden(error_message)
+
+
+@require_POST
+def comment_add(request):
+    form = CommentForm(data=request.POST)
+    print(form)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.user = request.user
+        comment.save()
+
+        return HttpResponseRedirect(f"../{request.POST.get('post')}/detail")
+    else:
+        error_message = "폼 에러"
         return HttpResponseForbidden(error_message)

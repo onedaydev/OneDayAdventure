@@ -10,10 +10,10 @@
             {% endif %}
         </div>
         <div class="col-6">
-            <div class="input-group">
-                <input type="text" class="form-control">
-                <button class="btn btn-outline-secondary">search</button>
-            </div>
+            <form method="get" action="{% url 'posts:post_list' %}" class="input-group">
+                <input type="text" class="form-control" name="search" placeholder="검색어를 입력하세요" value="{{ search }}">
+                <button type="submit" class="btn btn-outline-secondary">검색</button>
+            </form>
         </div>
     </div>
     <table class="table">
@@ -50,14 +50,14 @@
     <ul class="pagination justify-content-center">
         <li class="page-item">
             {% if page_obj.has_previous %}
-            <a href="{% url 'posts:post_list'%}" style="text-decoration: none;">
+            <a href="{% url 'posts:post_list'%}?&search={{search}}" style="text-decoration: none;">
                 <button class="page-link">
                     처음으로
                 </button>
             </a>
         </li>
         <li class="page-item">
-            <a href="{% url 'posts:post_list'%}?page={{page_obj.previous_page_number}}" style="text-decoration: none;">
+            <a href="{% url 'posts:post_list'%}?page={{page_obj.previous_page_number}}&search={{search}}" style="text-decoration: none;">
                 <button class="page-link">
                     이전
                 </button>
@@ -70,14 +70,14 @@
         </li>
         <li class="page-item">
             {% if page_obj.has_next %}
-            <a style="text-decoration: none;" href="{% url 'posts:post_list'%}?page={{page_obj.next_page_number}}">
+            <a style="text-decoration: none;" href="{% url 'posts:post_list'%}?page={{page_obj.next_page_number}}&search={{search}}">
                 <button class="page-link">
                     다음
                 </button>
             </a>
         </li>
         <li class="page-item">
-            <a style="text-decoration: none;" href="?page={{page_obj.paginator.num_pages }}">
+            <a style="text-decoration: none;" href="?page={{page_obj.paginator.num_pages }}&search={{search}}">
                 <button class="page-link">
                     마지막으로
                 </button>

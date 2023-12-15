@@ -1,6 +1,7 @@
 from django.urls import path
 from posts.views import post_list, \
-PostDetailView, PostCreateView, PostUpdateView, PostDeleteView
+PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, \
+comment_add
 
 app_name = "posts"
 urlpatterns = [
@@ -10,6 +11,7 @@ urlpatterns = [
     path("<int:pk>/update/", PostUpdateView.as_view(), name="post_update"),
     path("<int:pk>/delete/", PostDeleteView.as_view(), name="post_delete"),
 
-    # path("comment_add/", comment_add, name="comment_add"),
-    # path("comment_delete/<int:comment_id>/", comment_delete, name="comment_delete"),
+    path("comment_add/", comment_add, name="comment_add"),
+    # path("comment_update/<int:pk>/", comment_update, name="comment_update"),
+    # path("comment_delete/<int:pk>/", comment_delete, name="comment_delete"),
 ]

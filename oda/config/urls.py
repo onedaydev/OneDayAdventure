@@ -14,8 +14,9 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('posts/', include('posts.urls')),
 
-    # delete oneday
+    # # delete oneday
     path('comingsoon/', comingsoon),
+    # path('adventure/', include('adventure.urls')),
 
     # path('cms/', include(wagtailadmin_urls)),
     # path('documents/', include(wagtaildocs_urls)),

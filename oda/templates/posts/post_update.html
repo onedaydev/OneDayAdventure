@@ -3,10 +3,33 @@
 {% block content %}
 <div class="container mt-4">
     <h2>게시글 수정</h2>
-    <form method="post">
+    <form method="post" class="col-md-6">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        <!-- 테이블 시작 -->
+        <table class="table">
+            <!-- 제목 -->
+            <tr>
+                <th scope="row">
+                    <label for="{{ form.title.id_for_label }}">제목</label>
+                </th>
+                <td>{{ form.title }}</td>
+            </tr>
+
+            <!-- 내용 -->
+            <tr>
+                <th scope="row">
+                    <label for="{{ form.content.id_for_label }}">내용</label>
+                </th>
+                <td>{{ form.content }}</td>
+            </tr>
+        </table>
+        <!-- 테이블 끝 -->
+
+        <!-- 수정 완료 버튼 -->
         <button type="submit" class="btn btn-primary">수정 완료</button>
+
+        <!-- 취소 버튼 -->
         <a href="{% url 'posts:post_detail' pk=post.pk %}" class="btn btn-secondary ml-2">취소</a>
     </form>
 </div>

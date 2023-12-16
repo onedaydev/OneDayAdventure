@@ -54,10 +54,25 @@ class PostDetailView(DetailView):
     model = Post
     template_name = "posts/post_detail.html"
     context_object_name = "post"
+    paginate_comments_by = 3
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["comment_form"] = CommentForm()
+
+        comments_list = Comment.objects.filter(post=self.object)
+        paginator = Paginator(comments_list, self.paginate_comments_by)
+
+        page = self.request.GET.get('page')
+        if not page:
+            page = 1
+
+
+        comments = paginator.get_page(page)
+
+        
+        context['comments'] = comments
+
         return context
 
 
@@ -90,16 +105,42 @@ class PostDeleteView(UserPassesTestMixin, DeleteView):
         return HttpResponseForbidden(error_message)
 
 
-@require_POST
-def comment_add(request):
-    form = CommentForm(data=request.POST)
-    print(form)
-    if form.is_valid():
-        comment = form.save(commit=False)
-        comment.user = request.user
-        comment.save()
+class CommentCreateView(CreateView):
+    model = Comment
+    form_class = CommentForm
+    # success_url = reverse_lazy("posts:post_detail", kwargs={"pk": })
 
-        return HttpResponseRedirect(f"../{request.POST.get('post')}/detail")
-    else:
-        error_message = "폼 에러"
+    def get_success_url(self):
+        return reverse_lazy("posts:post_detail", kwargs={"pk": self.object.post.pk})
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+# @require_POST
+# def comment_add(request):
+#     form = CommentForm(data=request.POST)
+#     if form.is_valid():
+#         comment = form.save(commit=False)
+#         comment.user = request.user
+#         comment.save()
+
+#         return HttpResponseRedirect(f"../{request.POST.get('post')}/detail")
+#     else:
+#         error_message = "폼 에러"
+#         return HttpResponseForbidden(error_message)
+
+
+class CommentDeleteView(UserPassesTestMixin, DeleteView):
+    model = Comment
+
+    def get_success_url(self):
+        return reverse_lazy("posts:post_detail", kwargs={"pk": self.object.post.pk})
+
+    def test_func(self):
+        return self.request.user == self.get_object().user
+
+    def handle_no_permission(self):
+        error_message = "삭제 권한이 없습니다"
         return HttpResponseForbidden(error_message)

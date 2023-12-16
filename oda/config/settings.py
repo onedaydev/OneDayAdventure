@@ -13,6 +13,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "users",
     "posts",
+    "imagekit",
     
 
     # "wagtail.contrib.forms",

@@ -9,7 +9,8 @@ class PostForm(forms.ModelForm):
             "title",
             "content",
         ]
-    
+
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
@@ -20,7 +21,11 @@ class CommentForm(forms.ModelForm):
         widgets = {
             "content": forms.Textarea(
                 attrs={
-                    "placeholder": "~comment~"
+                    "placeholder": "~comment~",
+                    "class": "form-control custom-textarea",
+                    "id": "commentContent",
+                    "name": "content",
+                    "rows": "3",
                 }
             )
         }

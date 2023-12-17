@@ -67,9 +67,7 @@ class PostDetailView(DetailView):
         if not page:
             page = 1
 
-
         comments = paginator.get_page(page)
-
         
         context['comments'] = comments
 

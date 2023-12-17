@@ -37,7 +37,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for comment in post.comment_set.all %}
+                {% for comment in comments %}
                 <tr>
                     <td><img src="{{ comment.user.profile_thumbnail.url }}" />{{ comment.user.username }}</td>
                     <td>

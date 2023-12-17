@@ -12,6 +12,9 @@ class User(AbstractUser):
                                       processors=[ResizeToFill(10, 10)],
                                       format='JPEG',
                                       options={'quality': 60})
-
+    profile_thumbnail2 = ImageSpecField(source='profile_image',
+                                      processors=[ResizeToFill(250, 250)],
+                                      format='JPEG',
+                                      options={'quality': 60})
     def __str__(self):
         return self.username

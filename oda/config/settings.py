@@ -1,10 +1,12 @@
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-with open("etc/secret_key.txt") as f:
-    SECRET_KEY = f.read().strip()
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = True
 
@@ -15,7 +17,6 @@ INSTALLED_APPS = [
     "posts",
     "imagekit",
     
-
     # "wagtail.contrib.forms",
     # "wagtail.contrib.redirects",
     # "wagtail.embeds",
@@ -74,9 +75,18 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    # "default": {
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": BASE_DIR / "db.sqlite3",
+    # }
+
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('NAME'),
+        'USER': os.getenv('USER'),
+        'PASSWORD': os.getenv('PASSWORD'),
+        'HOST': 'localhost', 
+        'PORT': '5432',       
     }
 }
 

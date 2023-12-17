@@ -45,3 +45,11 @@ def signup_view(request):
 
     context = {"form": form}
     return render(request, "users/signup.html", context)
+
+
+def profile_view(request):
+    user = request.user
+    context = {
+        'user': user,
+    }
+    return render(request, "users/profile.html", context)

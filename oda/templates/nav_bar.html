@@ -9,7 +9,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
                 <li class="nav-item">
                     {% if user.is_authenticated %}
-                    <a href="/comingsoon" class="nav-link">
+                    <a href="{% url "users:profile" %}" class="nav-link">
                         프로필
                     </a>
                     <a class="nav-link" href="{% url 'users:logout' %}">

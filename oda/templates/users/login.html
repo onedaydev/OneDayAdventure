@@ -5,7 +5,6 @@
 <style>
     body {
         background-color: #f8f9fa;
-        /* 배경색 설정 */
     }
 
     .login-container {
@@ -17,10 +16,8 @@
 
     .login-form {
         max-width: 400px;
-        /* 로그인 폼의 최대 너비 */
         width: 100%;
         margin: 20px;
-        /* 폼 주변 여백 설정 */
     }
 
     .login-btn {
@@ -42,13 +39,18 @@
     }
 </style>
 
-<!-- 실제 HTML 내용 -->
+
 <div class="login-container">
     <div class="login-form">
         <h2 class="text-center mb-4">로그인</h2>
         <form method="post" action="{% url 'users:login' %}">
             {% csrf_token %}
             <table class="login-table">
+                <tr>
+                    {% if form.non_field_errors %}
+                        {{ form.non_field_errors }}
+                    {% endif %}
+                </tr>
                 <tr>
                     <th>{{ form.username.label_tag }}</th>
                     <td>{{ form.username }}</td>

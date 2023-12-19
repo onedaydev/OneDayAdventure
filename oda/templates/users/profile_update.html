@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>프로필 및 비밀번호 업데이트</h2>
+
+  <!-- 프로필 정보 업데이트 폼 -->
+  <form method="post" action="{% url 'users:profile_update' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">프로필 저장</button>
+  </form>
+
+  <hr>
+
+  <!-- 비밀번호 변경 폼 -->
+  <form method="post" action="{% url 'users:password_change' %}">
+    {% csrf_token %}
+    {{ password_form.as_p }}
+    <button type="submit">비밀번호 변경</button>
+  </form>
+{% endblock %}

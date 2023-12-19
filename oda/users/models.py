@@ -9,7 +9,7 @@ class User(AbstractUser):
         "profile image", upload_to="users/profile", blank=True
     )
     profile_thumbnail = ImageSpecField(source='profile_image',
-                                      processors=[ResizeToFill(10, 10)],
+                                      processors=[ResizeToFill(20, 20)],
                                       format='JPEG',
                                       options={'quality': 60})
     profile_thumbnail2 = ImageSpecField(source='profile_image',
@@ -18,3 +18,4 @@ class User(AbstractUser):
                                       options={'quality': 60})
     def __str__(self):
         return self.username
+    

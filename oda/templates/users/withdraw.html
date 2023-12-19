@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Withdraw</h2>
+<p>Are you sure you want to withdraw your membership?</p>
+<form method="post" action="{% url 'users:withdraw' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Withdraw</button>
+</form>
+{% endblock %}

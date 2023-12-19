@@ -1,12 +1,12 @@
 from typing import Any
 from django.shortcuts import render
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.paginator import Paginator
-from django.http import HttpResponseForbidden, HttpResponseRedirect
+from django.http import HttpResponseForbidden
 from django.db.models.query_utils import Q
-from django.views.decorators.http import require_POST
+# from django.views.decorators.http import require_POST
 
 from posts.models import Post, Comment
 from posts.forms import PostForm, CommentForm
@@ -106,7 +106,6 @@ class PostDeleteView(UserPassesTestMixin, DeleteView):
 class CommentCreateView(CreateView):
     model = Comment
     form_class = CommentForm
-    # success_url = reverse_lazy("posts:post_detail", kwargs={"pk": })
 
     def get_success_url(self):
         return reverse_lazy("posts:post_detail", kwargs={"pk": self.object.post.pk})
@@ -114,20 +113,6 @@ class CommentCreateView(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
-
-
-# @require_POST
-# def comment_add(request):
-#     form = CommentForm(data=request.POST)
-#     if form.is_valid():
-#         comment = form.save(commit=False)
-#         comment.user = request.user
-#         comment.save()
-
-#         return HttpResponseRedirect(f"../{request.POST.get('post')}/detail")
-#     else:
-#         error_message = "폼 에러"
-#         return HttpResponseForbidden(error_message)
 
 
 class CommentDeleteView(UserPassesTestMixin, DeleteView):

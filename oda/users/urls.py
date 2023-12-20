@@ -5,7 +5,7 @@ from users.views import (
     signup_view,
     profile_view,
     withdraw_view,
-    ProfileUpdateView,
+    profile_update_view,
 )
 
 
@@ -16,6 +16,5 @@ urlpatterns = [
     path("signup/", signup_view, name="signup"),
     path("profile/", profile_view, name="profile"),
     path("withdraw/", withdraw_view, name="withdraw"),
-    # path("profile_image_update", ProfileImageUpdateView.as_view(), name="profile_image_update"),
-    # path("password/change", ProfileUpdateView.as_view(), name="password_change"),
+    path("profileupdate", profile_update_view, name="profile_update"),
 ]

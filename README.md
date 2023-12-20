@@ -2,5 +2,5 @@
 
 Web Dev Project based on Django
 
-Database : postgreSQL
-css : bootstrap
+Database : PostgreSQL
+css : Bootstrap(Bootswatch)

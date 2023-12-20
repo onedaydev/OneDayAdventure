@@ -1,17 +1,16 @@
-from typing import Any
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.forms import SetPasswordForm
-from django.views.generic.edit import UpdateView
-from django.db.models.base import Model as Model
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
-
-from users.forms import LoginForm, SignupForm, WithdrawForm, ProfileUpdateForm
-from users.models import User
+from users.forms import (
+    LoginForm,
+    SignupForm,
+    WithdrawForm,
+    ProfileImageForm,
+    CustomPasswordChangeForm,
+)
 
 
 def login_view(request):
@@ -85,21 +84,25 @@ def withdraw_view(request):
     return render(request, "users/withdraw.html", context)
 
 
-class ProfileUpdateView(LoginRequiredMixin, UpdateView):
-    model = User
-    form_class = ProfileUpdateForm
-    template_name = 'users/profile_update.html'
-    success_url = reverse_lazy('users:profile_update')
+@login_required
+def profile_update_view(request):
+    if request.method == "POST":
+        image_form = ProfileImageForm(request.POST, request.FILES, instance=request.user)
+        password_form = CustomPasswordChangeForm(request.user, request.POST)
+        
+        if image_form.is_valid() and password_form.is_valid():
+            image_form.save()
+            user = password_form.save()
+            update_session_auth_hash(request, user)  # 중요: 비밀번호가 변경되면 세션을 업데이트합니다.
+            messages.success(request, 'Your profile was successfully updated!')
+            return redirect('/')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        image_form = ProfileImageForm(instance=request.user)
+        password_form = CustomPasswordChangeForm(request.user)
 
-    def get_object(self, queryset=None):
-        return self.request.user
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-
-        password_form = SetPasswordForm(user=self.get_object(), data=self.request.POST)
-        if password_form.is_valid():
-            password_form.save()
-            messages.success(self.request, '프로필 및 비밀번호가 성공적으로 업데이트되었습니다.')
-
-        return response
+    return render(request, 'users/profile_update.html', {
+        'image_form': image_form,
+        'password_form': password_form
+    })  

@@ -1,4 +1,3 @@
-from typing import Any
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
@@ -6,7 +5,6 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.paginator import Paginator
 from django.http import HttpResponseForbidden
 from django.db.models.query_utils import Q
-# from django.views.decorators.http import require_POST
 
 from posts.models import Post, Comment
 from posts.forms import PostForm, CommentForm
@@ -56,20 +54,20 @@ class PostDetailView(DetailView):
     context_object_name = "post"
     paginate_comments_by = 3
 
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["comment_form"] = CommentForm()
 
         comments_list = Comment.objects.filter(post=self.object)
         paginator = Paginator(comments_list, self.paginate_comments_by)
 
-        page = self.request.GET.get('page')
+        page = self.request.GET.get("page")
         if not page:
             page = 1
 
         comments = paginator.get_page(page)
-        
-        context['comments'] = comments
+
+        context["comments"] = comments
 
         return context
 

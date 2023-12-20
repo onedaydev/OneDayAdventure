@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.forms import PasswordChangeForm, UserChangeForm
+from django.contrib.auth.forms import PasswordChangeForm
 
 from users.models import User
 
@@ -49,7 +49,11 @@ class WithdrawForm(forms.Form):
     )
 
 
-class ProfileUpdateForm(PasswordChangeForm):
+class ProfileImageForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ["profile_image"]
+
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    pass

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% for report in reports %}
+<a href="{% url 'adventure:report_detail' report.id %}">{{ report }}</a>
+{% endfor %}
+{% endblock %}

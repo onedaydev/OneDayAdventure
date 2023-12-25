@@ -13,11 +13,10 @@ urlpatterns = [
     path('', index),
     path('users/', include('users.urls')),
     path('posts/', include('posts.urls')),
+    path('adventure/', include('adventure.urls')),
 
-    # # delete oneday
     path('comingsoon/', comingsoon),
-    # path('adventure/', include('adventure.urls')),
-
+    
     # path('cms/', include(wagtailadmin_urls)),
     # path('documents/', include(wagtaildocs_urls)),
     # path('pages/', include(wagtail_urls)),

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="{% url 'adventure:adventure_create' %}">모험</a>
+<br/>
+
+{% for adv in adventure %}
+<a href="{% url 'adventure:adventure_detail' adv.id %}">{{ adv.character_class }} - {{ adv.character_race }}</a>
+{% endfor %}
+{% endblock %}

@@ -1,3 +1,21 @@
 from django.contrib import admin
+from adventure.models import Adventure, Report
 
-# Register your models here.
+
+class ReportInline(admin.TabularInline):
+    model = Report
+
+
+@admin.register(Adventure)
+class AdventureAdmin(admin.ModelAdmin):
+    pass
+    # inlines = [
+    #     ReportInline,
+    # ]
+    # list_display = []
+
+
+@admin.register(Report)
+class ReportAdmin(admin.ModelAdmin):
+    # list_display = []
+    pass

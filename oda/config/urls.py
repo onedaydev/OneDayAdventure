@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from config.views import index, comingsoon
+from config.views import IndexView, comingsoon
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -10,7 +10,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index),
+    path('', IndexView.as_view(), name='index'),
     path('users/', include('users.urls')),
     path('posts/', include('posts.urls')),
     path('adventure/', include('adventure.urls')),

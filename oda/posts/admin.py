@@ -1,5 +1,5 @@
 from django.contrib import admin
-from posts.models import Post, Comment
+from posts.models import Post, Comment, Announcement
 
 
 class CommentInline(admin.TabularInline):
@@ -28,3 +28,7 @@ class CommentAdmin(admin.ModelAdmin):
         "content",
         "date",
     ]
+
+@admin.register(Announcement)
+class AnnouncementAdmin(admin.ModelAdmin):
+    pass

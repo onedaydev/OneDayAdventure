@@ -27,3 +27,17 @@ class Comment(models.Model):
     )
     content = models.TextField("Content")
     date = models.DateTimeField("create or modify date", auto_now_add=True)
+
+
+class Announcement(models.Model):
+    user = models.ForeignKey(
+        "users.User",
+        verbose_name="writer",
+        on_delete=models.CASCADE,
+    )
+    title = models.TextField("title")
+    content = models.TextField("Content")
+    date = models.DateTimeField("create or modify date", auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s Post(id: {self.id}, title: {self.title})"

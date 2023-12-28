@@ -1,5 +1,49 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container mt-4">
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-4">
+                <a href="{% url 'adventure:adventure_create' %}" class="btn btn-primary btn-lg">Create Adventure</a>
+            </div>
+        </div>
 
+        <div class="col-md-6">`
+            <h3>Latest Reports</h3>
+            <ul class="list-group">
+                {% for report in latest_reports %}
+                <li class="list-group-item">
+                    <a href="{% url 'adventure:report_detail' report.id %}">{{ report.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- 최근 게시물 -->
+    <div class="row">
+        <div class="col-md-6">`
+            <div class="mt-4">
+                <h3>Announcements</h3>
+                <div>
+                    {% for announcement in announcements %}
+                    <p>{{ announcement }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h3>Latest Posts</h3>
+            <ul class="list-group">
+                {% for post in latest_posts %}
+                <li class="list-group-item">
+                    <a href="{% url 'posts:post_detail' post.id %}">{{ post.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
 {% endblock %}

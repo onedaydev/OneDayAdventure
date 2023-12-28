@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Create Adventure</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
-{% endblock %}
+<div class="container mt-4">
+    <h2 class="mb-3">Create Adventure</h2>
+    <form method="post" class="form">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}ㄴ

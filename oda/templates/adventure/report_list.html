@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-
-{% for report in reports %}
-<a href="{% url 'adventure:report_detail' report.id %}">{{ report }}</a>
-{% endfor %}
+<div class="container mt-4">
+    <table class="table">
+        <tbody>
+            {% for report in reports %}
+            <tr>
+                <td><a href="{% url 'adventure:report_detail' report.id %}">{{ report }}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

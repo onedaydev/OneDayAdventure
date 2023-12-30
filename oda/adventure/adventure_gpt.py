@@ -1,7 +1,9 @@
-from openai import OpenAI
+import openai
+import os
 
-client = OpenAI()
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
+client = openai.OpenAI()
 
 def adventure_maker(ch_age, ch_class, ch_race):
     completion = client.chat.completions.create(

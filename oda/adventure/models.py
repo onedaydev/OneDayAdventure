@@ -13,10 +13,10 @@ class Adventure(models.Model):
     character_age = models.IntegerField(
         verbose_name="캐릭터 나이", validators=[MinValueValidator(12), MaxValueValidator(60)]
     )
-    character_class = models.CharField(verbose_name="캐릭터 직업", choices=CLASS_CHOICES)
-    character_race = models.CharField(verbose_name="캐릭터 종족", choices=RACE_CHOICES)
+    character_class = models.CharField(verbose_name="캐릭터 직업", max_length=100, choices=CLASS_CHOICES)
+    character_race = models.CharField(verbose_name="캐릭터 종족", max_length=100, choices=RACE_CHOICES)
 
-    status = models.CharField(blank=True)
+    status = models.CharField(blank=True, max_length=100)
     date = models.DateTimeField(verbose_name="create date", auto_now_add=True)
 
     def __str__(self):

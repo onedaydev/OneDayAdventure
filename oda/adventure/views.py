@@ -14,7 +14,7 @@ class AdventureListView(LoginRequiredMixin, ListView):
     context_object_name = "adventure"
 
     def get_queryset(self):
-        return Adventure.objects.filter(user=self.request.user)
+        return Adventure.objects.filter(user=self.request.user).order_by("-date")
 
 
 class AdventureDetailView(LoginRequiredMixin, DetailView):
@@ -61,7 +61,7 @@ class ReportListView(ListView):
     context_object_name = "reports"
 
     def get_queryset(self):
-        return Report.objects.filter(user=self.request.user)
+        return Report.objects.filter(user=self.request.user).order_by('-date')
 
 
 class ReportDetailView(DetailView):

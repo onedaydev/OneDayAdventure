@@ -19,5 +19,5 @@ def adventure_maker(ch_age, ch_class, ch_race):
             },
         ],
     )
-    story = completion.choices[0].message
+    story = completion.choices[0].message.content
     return story

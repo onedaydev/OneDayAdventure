@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" style="margin-top: 50px;">
+    <div class="post">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="row">제목</th>
+                    <td>{{ announcement.title }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">작성자/작성 일시</th>
+                    <td>{{announcement.user.username}}/{{announcement.date}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">내용</th>
+                    <td>{{ announcement.content }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}

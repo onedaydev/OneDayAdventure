@@ -26,3 +26,6 @@ urlpatterns += static(
 	prefix = settings.MEDIA_URL,
 	document_root=settings.MEDIA_ROOT,
 )
+
+handler404 = 'config.views.page_not_found'
+handler500 = 'config.views.internal_server_error'

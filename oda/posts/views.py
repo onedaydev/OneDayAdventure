@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponseForbidden
 from django.db.models.query_utils import Q
 
-from posts.models import Post, Comment
+from posts.models import Post, Comment, Announcement
 from posts.forms import PostForm, CommentForm
 
 
@@ -125,3 +125,9 @@ class CommentDeleteView(UserPassesTestMixin, DeleteView):
     def handle_no_permission(self):
         error_message = "삭제 권한이 없습니다"
         return HttpResponseForbidden(error_message)
+
+
+class AnnouncementDetail(DetailView):
+    model = Announcement
+    template_name = "posts/announcement_detail.html"
+    context_object_name = "announcement"

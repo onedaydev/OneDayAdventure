@@ -1,10 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<a href="{% url 'adventure:adventure_create' %}">모험</a>
-<br/>
 
-{% for adv in adventure %}
-<a href="{% url 'adventure:adventure_detail' adv.id %}">{{ adv.character_class }} - {{ adv.character_race }}</a>
-{% endfor %}
+<div class="container mt-4">
+    <div class="mb-4" style="margin-top: 50px;">
+        <a href="{% url 'adventure:adventure_create' %}" class="btn btn-primary btn-lg">Create Adventure</a>
+    </div>
+    <table class="table">
+        <tbody>
+            {% for adv in adventure %}
+            <tr>
+                <td>{{ adv.character_race }} - {{adv.character_age}} - {{adv.character_class}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 {% endblock %}

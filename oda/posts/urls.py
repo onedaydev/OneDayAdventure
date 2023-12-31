@@ -7,6 +7,7 @@ from posts.views import (
     PostDeleteView,
     CommentCreateView,
     CommentDeleteView,
+    AnnouncementDetail,
 )
 
 app_name = "posts"
@@ -20,4 +21,5 @@ urlpatterns = [
     path(
         "<int:pk>/comment_delete/", CommentDeleteView.as_view(), name="comment_delete"
     ),
+    path("<int:pk>/announcement_detail/", AnnouncementDetail.as_view(), name="announcement_detail"),
 ]
